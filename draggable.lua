@@ -5,11 +5,6 @@ local Draggable = Class{}
 
 -- Constructor
 function Draggable:init(x, y, width, height)
-    -- GameObject:init(self, x, y, width, height)
-    -- self.x = x or 100
-    -- self.y = y or 100
-    -- self.width = width or 100
-    -- self.height = height or 50
     self.dragging = false
     self.offsetX = 0
     self.offsetY = 0
@@ -38,10 +33,5 @@ function Draggable:mousereleased(x, y, button)
         self.dragging = false
     end
 end
-
--- function Draggable:draw()
---     love.graphics.setColor(0, 1, 0)  -- green
---     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
--- end
 
 return Draggable
