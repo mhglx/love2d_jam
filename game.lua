@@ -18,7 +18,6 @@ function Game.new()
         reserve = {}
     }
 
-
     function self:update(dt)
         self.timer:update(dt)
         if self.timeLeft > 0 then
