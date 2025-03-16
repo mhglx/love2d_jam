@@ -4,6 +4,37 @@ local Food = require "food"
 local Pot = require "pot"
 
 local game = Game.new()
+game:refillQueue()
+
+local gamestate = require "hump.gamestate"
+
+local menuState = {}
+local gameState = {}
+
+function menuState:update()
+    -- Allow the user to start the game when a key is pressed
+    if love.keyboard.isDown("return") then
+        -- Switch to the game state
+        gamestate.switch(gameState)
+    end
+end
+
+function menuState:draw()
+    -- Draw the menu with a Start Game option
+    love.graphics.setFont(love.graphics.newFont(30))
+    love.graphics.print("Main Menu", 200, 100)
+    love.graphics.print("Press Enter to Start Game", 150, 200)
+end
+
+function gameState:enter()
+    game = Game.new()
+    game:refillQueue()
+end
+
+function love.load()
+    gamestate.registerEvents()
+    gamestate.switch(menuState)
+end
 
 function love.keypressed(key)
     if game.gameOver then return end
@@ -15,12 +46,17 @@ function love.keypressed(key)
     end
 end
 
-function love.update(dt)
-    game.timer:update(dt)
+function gameState:update(dt)
+    game.timeLeft = game.timeLeft - dt
+    if game.timeLeft == 0.0 then
+      game.gameOver = true
+    end
+    -- game:update(dt) -- this is way too fast?!
     game.pot:update(dt)
 end
 
-function love.draw()
+-- function love.draw()
+function gameState:draw()
     if game.gameOver then
         game.pot = Pot.new()
         love.graphics.print("Game Over!", 50, 50)
@@ -50,5 +86,3 @@ function love.draw()
         y = y + 20
     end
 end
-
-game:refillQueue()
