@@ -6,8 +6,9 @@ local Food = require "food"
 
 Pot = Class{__includes = {GameObject}}
 
--- function self.new()
-function Pot:init()
+
+function Pot:init(x, y, width, height)
+  GameObject.init(self, x, y, width, height)
   self.foodItems = {}
   self.volatility = 0
   self.timer = Timer.new()

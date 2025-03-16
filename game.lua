@@ -12,7 +12,7 @@ function Game.new()
         volatility = 0,
         maxVolatility = 10,
         timer = Timer.new(),
-        pot = Pot(),
+        pot = Pot(0, 0, 0, 0),
         queueCapacity = 3,
         queue = {},
         reserve = {}
