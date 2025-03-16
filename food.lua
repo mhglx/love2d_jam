@@ -14,7 +14,6 @@ Food.types = {
 function Food:init(x, y, width, height)
     GameObject.init(self, x, y, width, height)
     Draggable.init(self)
-    -- self.foodType = foodType or "Unknown"
 end
 
 -- Drop food
