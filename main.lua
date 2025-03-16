@@ -58,7 +58,7 @@ end
 -- function love.draw()
 function gameState:draw()
     if game.gameOver then
-        game.pot = Pot()
+        game.pot = Pot(0, 0, 0, 0)
         love.graphics.print("Game Over!", 50, 50)
         love.graphics.print("Final Score: " .. game.score, 50, 80)
         return
