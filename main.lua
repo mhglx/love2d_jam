@@ -4,7 +4,7 @@ local Food = require "food"
 local Pot = require "pot"
 
 local game = Game.new()
-game:refillQueue()
+game.queue:fill()
 
 local gamestate = require "hump.gamestate"
 
@@ -28,7 +28,7 @@ end
 
 function gameState:enter()
     game = Game.new()
-    game:refillQueue()
+    game.queue:fill()
 end
 
 function love.load()
@@ -55,7 +55,6 @@ function gameState:update(dt)
     game.pot:update(dt)
 end
 
--- function love.draw()
 function gameState:draw()
     if game.gameOver then
         game.pot = Pot(0, 0, 0, 0)
@@ -70,12 +69,12 @@ function gameState:draw()
     love.graphics.print("Volatility: " .. game.volatility .. "/" .. game.maxVolatility, 50, 140)
 
     love.graphics.print("Queue:", 50, 170)
-    for i, food in ipairs(game.queue) do
+    for i, food in ipairs(game.queue.foodItems) do
         love.graphics.print(i .. ": " .. Food.getName(food) .. " - " .. "volatility: " .. Food.getVolatility(food), 50, 190 + (i * 20))
     end
 
-    if next(game.reserve) ~= nil then
-      love.graphics.print("Reserve: " .. (game.reserve[1] and Food.getName(game.reserve[1]) ..  " - " .. "volatility: " .. Food.getVolatility(game.reserve[1])), 50, 280)
+    if #game.reserve.foodItems == 1 then
+      love.graphics.print("Reserve: " .. (game.reserve.foodItems[1] and Food.getName(game.reserve.foodItems[1]) ..  " - " .. "volatility: " .. Food.getVolatility(game.reserve.foodItems[1])), 50, 280)
     else
       love.graphics.print("Reserve: " ..  "None", 50, 280)
     end

@@ -49,16 +49,4 @@ function Pot:update(dt)
     self.timer:update(dt)
 end
 
-function Pot:getFoodCount()
-    return #self.foodItems
-end
-
-function Pot:getVolatility()
-    return self.volatility
-end
-
-function Pot:getFoodItems()
-    return self.foodItems
-end
-
 return Pot

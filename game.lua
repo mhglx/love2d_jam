@@ -1,7 +1,8 @@
 local Timer = require "hump.timer"
 
 local Pot = require "pot"
-local Food = require "food"
+local Queue = require "queue"
+local Reserve = require "reserve"
 
 local Game = {}
 
@@ -13,9 +14,8 @@ function Game.new()
         maxVolatility = 10,
         timer = Timer.new(),
         pot = Pot(0, 0, 0, 0),
-        queueCapacity = 3,
-        queue = {},
-        reserve = {}
+        queue = Queue(0, 0, 0, 0),
+        reserve = Reserve(0, 0, 0, 0)
     }
 
     function self:update(dt)
@@ -25,29 +25,23 @@ function Game.new()
         end
     end
 
-    function self:refillQueue()
-        while #self.queue < self.queueCapacity do
-            table.insert(self.queue, Food.generate())
-        end
-    end
-
     function self:swapReserve()
-        if self.gameOver or #self.queue == 0 then return end
-        if next(self.reserve) ~= nil then
-          self.reserve[1], self.queue[1] = self.queue[1], self.reserve[1]
+        if self.gameOver then return end
+        if #self.reserve.foodItems == 1 then
+          self.reserve.foodItems[1], self.queue.foodItems[1] = self.queue.foodItems[1], self.reserve.foodItems[1]
         else
-          _ = table.remove(self.queue, 1)
-          self.reserve[1] = self.queue[1]
-          self:refillQueue()
+          _ = table.remove(self.queue.foodItems, 1)
+          self.reserve.foodItems[1] = self.queue.foodItems[1]
+          self.queue:fill()
         end
     end
 
     function self:addFoodFromQueue()
         if self.gameOver then return end
-        local foodType = table.remove(self.queue, 1)
+        local foodType = table.remove(self.queue.foodItems, 1)
         self.pot:addFood(foodType, self)
-        self.volatility = self.pot:getVolatility()
-        self:refillQueue()
+        self.volatility = self.pot.volatility
+        self.queue:fill()
     end
 
     return self
