@@ -1,12 +1,10 @@
 local Class = require("hump.class")
 
-local GameObject = require("gameobject")
-
-Reserve = Class{__includes = {GameObject}}
+Reserve = Class{}
 
 
-function Reserve:init(x, y, width, height)
-  GameObject.init(self, x, y, width, height)
+function Reserve:init(guiElement)
+  self.guiElement = guiElement
   self.foodItems = {}
 end
 

@@ -1,14 +1,13 @@
 local Class = require("hump.class")
 local Timer = require "hump.timer"
 
-local GameObject = require("gameobject")
 local Food = require "food"
 
-Pot = Class{__includes = {GameObject}}
+Pot = Class{__includes = {}}
 
 
-function Pot:init(x, y, width, height)
-  GameObject.init(self, x, y, width, height)
+function Pot:init(guiElement)
+  self.guiElement = guiElement
   self.foodItems = {}
   self.volatility = 0
   self.timer = Timer.new()

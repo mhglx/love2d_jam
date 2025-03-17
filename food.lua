@@ -1,8 +1,6 @@
 local Class = require("hump.class")
-local Draggable = require("draggable")
-local GameObject = require("gameobject")
 
-local Food = Class{__includes = {GameObject, Draggable}}
+local Food = Class{}
 
 Food.types = {
     meat = { name = "Meat", cookTime = 7, score = 50, volatility = 4 },
@@ -11,20 +9,20 @@ Food.types = {
     peppah = { name = "Peppah", cookTime = 5, score = 100, volatility = 7 }
 }
 
-function Food:init(x, y, width, height)
-    GameObject.init(self, x, y, width, height)
-    Draggable.init(self)
+function Food:init(guiElement, draggable)
+    self.guiElement = guiElement
+    self.draggable = draggable
 end
 
 -- Drop food
 function Food:mousereleased(x, y, button)
-    Draggable.mousereleased(self, x, y, button)
+    self.draggable.mousereleased(self, x, y, button)
 
     print("dropped food!")
 end
 
 function Food:draw()
-    GameObject.draw(self)
+    self.guiElement.draw(self)
 end
 
 function Food.generate()

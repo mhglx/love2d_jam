@@ -1,10 +1,16 @@
 local Timer = require "hump.timer"
 
+local GUIElement = require "gui_element"
 local Pot = require "pot"
 local Queue = require "queue"
 local Reserve = require "reserve"
 
 local Game = {}
+
+local potGuiElement = GUIElement(0, 0, 0, 0)
+local queueGuiElement = GUIElement(0, 0, 0, 0)
+local reserveGuiElement = GUIElement(0, 0, 0, 0)
+
 
 function Game.new()
     local self = {
@@ -13,9 +19,9 @@ function Game.new()
         volatility = 0,
         maxVolatility = 10,
         timer = Timer.new(),
-        pot = Pot(0, 0, 0, 0),
-        queue = Queue(0, 0, 0, 0),
-        reserve = Reserve(0, 0, 0, 0)
+        pot = Pot(potGuiElement),
+        queue = Queue(queueGuiElement),
+        reserve = Reserve(reserveGuiElement)
     }
 
     function self:update(dt)
