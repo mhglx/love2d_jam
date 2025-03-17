@@ -1,0 +1,36 @@
+local Class = require("hump.class")
+
+local Draggable = Class{}
+
+-- Constructor
+function Draggable:init(x, y, width, height)
+    self.dragging = false
+    self.offsetX = 0
+    self.offsetY = 0
+end
+
+function Draggable:mousepressed(x, y, button)
+    if button == 1 then  -- LMB
+        if x > self.x and x < self.x + self.width and
+           y > self.y and y < self.y + self.height then
+            self.dragging = true
+            self.offsetX = x - self.x
+            self.offsetY = y - self.y
+        end
+    end
+end
+
+function Draggable:mousemoved(x, y)
+    if self.dragging then
+        self.x = x - self.offsetX
+        self.y = y - self.offsetY
+    end
+end
+
+function Draggable:mousereleased(x, y, button)
+    if button == 1 then -- LMB
+        self.dragging = false
+    end
+end
+
+return Draggable
